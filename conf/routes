@@ -3,7 +3,7 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET     /                           controllers.HomeController.index
+GET     /                           controllers.AuthController.login
 # An example controller showing how to use dependency injection
 GET     /count                      controllers.CountController.count
 # An example controller showing how to write asynchronous code
@@ -11,3 +11,109 @@ GET     /message                    controllers.AsyncController.message
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+
+
+# Authentication Control for login and logout
+# start
+GET     /login                      controllers.AuthController.login
+POST    /login                      controllers.AuthController.authenticate
+GET     /logout                     controllers.AuthController.logout
+# end
+
+
+# Home Control for main contents
+# start
+GET     /thanks/card                controllers.HomeController.openCard(cardId: String)
+POST    /thanks/card/mycont1        controllers.HomeController.addGoodCount_MyCont1(cardId: String)
+POST    /thanks/card/mycont2        controllers.HomeController.addGoodCount_MyCont2(cardId: String)
+POST    /thanks/card/bbscont1       controllers.HomeController.addGoodCount_BbsCont1(cardId: String)
+
+GET     /thanks/card/error          controllers.HomeController.appError
+GET     /system/error               controllers.HomeController.systemError
+GET     /cd/error                   controllers.HomeController.cdError(str: String)
+# end
+
+
+# Mypage Control for mypage
+# start
+GET     /mypage                     controllers.MypageController.mypage_main
+GET     /mypage/cont1               controllers.MypageController.mypage_cont1
+GET     /mypage/cont2               controllers.MypageController.mypage_cont2
+GET     /mypage/cont3               controllers.MypageController.mypage_cont3
+POST    /mypage_cont3               controllers.MypageController.sendCard
+# end
+
+
+# Bbs Control for bbs
+# start
+GET     /bbs                        controllers.BbsController.bbs_main
+GET     /bbs/cont1                  controllers.BbsController.bbs_cont1
+POST    /bbs/cont1                  controllers.BbsController.bbs_cont1
+GET     /bbs/cont2                  controllers.BbsController.bbs_cont2(date: String)
+GET     /bbs/cont3                  controllers.BbsController.bbs_cont3
+# end
+
+
+# Management Control for management
+# start
+GET     /management                 controllers.ManagementController.management_main
+
+GET     /management/cont1           controllers.ManagementController.management_cont1
+POST    /management/cont1/deleteU   controllers.ManagementController.deleteUser(userId: Integer)
+POST    /management/cont1/createU   controllers.ManagementController.createUser
+
+GET     /management/cont2           controllers.ManagementController.management_cont2
+POST	/management/cont2/deleteS   controllers.ManagementController.deleteSection(sectionId: Integer)
+POST	/management/cont2/createS   controllers.ManagementController.createSection
+POST	/management/cont2/deleteD   controllers.ManagementController.deleteDepartment(departmentId: Integer)
+POST	/management/cont2/createD   controllers.ManagementController.createDepartment
+
+GET     /management/cont3           controllers.ManagementController.management_cont3
+POST	/management/cont3/deleteC   controllers.ManagementController.deleteCategory(categoryId: Integer)
+POST	/management/cont3/createC   controllers.ManagementController.createCategory
+# end
+
+
+# System Control for system config
+# start
+GET     /system                     controllers.SystemController.system_main
+
+GET     /system/card                controllers.SystemController.card_main
+GET     /system/card/cont1          controllers.SystemController.card_cont1
+GET     /system/card/cont2          controllers.SystemController.card_cont2
+POST    /system/card/create         controllers.SystemController.createCard
+POST    /system/card/delete  	    controllers.SystemController.deleteCard(cardId: Integer)
+
+GET     /system/category            controllers.SystemController.category_main
+GET     /system/category/cont1      controllers.SystemController.category_cont1
+GET     /system/category/cont2      controllers.SystemController.category_cont2
+POST    /system/category/create     controllers.SystemController.createCategory
+POST    /system/category/delete     controllers.SystemController.deleteCategory(categoryId: Integer)
+
+GET     /system/department          controllers.SystemController.department_main
+GET     /system/department/cont1    controllers.SystemController.department_cont1
+GET     /system/department/cont2    controllers.SystemController.department_cont2
+POST    /system/department/create   controllers.SystemController.createDepartment
+POST    /system/department/delete   controllers.SystemController.deleteDepartment(departmentId: Integer)
+
+GET     /system/permission          controllers.SystemController.permission_main
+GET     /system/permission/cont1    controllers.SystemController.permission_cont1
+GET     /system/permission/cont2    controllers.SystemController.permission_cont2
+POST    /system/permission/create   controllers.SystemController.createPermission
+POST    /system/permission/delete   controllers.SystemController.deletePermission(permissionId: Integer)
+
+GET     /system/section             controllers.SystemController.section_main
+GET     /system/section/cont1       controllers.SystemController.section_cont1
+GET     /system/section/cont2       controllers.SystemController.section_cont2
+POST    /system/section/create      controllers.SystemController.createSection
+POST    /system/section/delete      controllers.SystemController.deleteSection(sectionId: Integer)
+
+GET     /system/user                controllers.SystemController.user_main
+GET     /system/user/cont1          controllers.SystemController.user_cont1
+GET     /system/user/cont2          controllers.SystemController.user_cont2
+POST    /system/user/create         controllers.SystemController.createUser
+POST    /system/user/delete         controllers.SystemController.deleteUser(userId: Integer)
+
+GET     /system/master              controllers.SystemController.master_main
+GET     /system/master/cont1        controllers.SystemController.master_cont1
+# end

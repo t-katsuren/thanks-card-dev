@@ -1,0 +1,126 @@
+@(userList: List[User])(userForm: Form[User])(departmentList: List[Department])(permissionList: List[Permission])
+
+@import helper._
+
+<!DOCTYPE html>
+
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<!-- jQuery -->
+		<script type="text/javascript" src="@routes.Assets.versioned("javascripts/jquery-1.12.3.min.js")"></script>
+
+		<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/system_style.css")">
+
+		<!-- popuup -->
+		<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/magnific-popup.css")">
+
+		<!-- 表のCSS -->
+		<link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/input_hyou.css")">
+
+		<script src="@routes.Assets.versioned("javascripts/jquery.magnific-popup.min.js")"></script>
+
+		<title>thanks | 社員設定</title>
+
+		<script>
+			$(function() {
+				$("th:nth-child(odd)").addClass("odd");
+				$("tr:nth-child(even)").addClass("even");
+			});
+		</script>
+			<script>
+			function myEnter(){
+			     myRet = alert("削除しました。");
+			}
+			</script>
+	</head>
+	<body>
+		<center><h1>社員設定</h1></center>
+		<table class="type04" width="100%">
+			<tr>
+				<th>社員CD</th>
+				<th>社員パス</th>
+				<th>部署名</th>
+				<th>氏名</th>
+				<th>権限</th>
+				<th>追加/削除</th>
+			</tr>
+			@for(user <- userList) {
+			<tr>
+				<td>@user.userCd</td>
+				<td>**********</td>
+				<td>@user.department.departmentName</td>
+				<td>@user.userName</td>
+				<td>@user.permission.permissionName</td>
+				<td>
+					<form action="@routes.ManagementController.deleteUser(user.id)" method="post">
+						<input onclick="myEnter()" class="myButtonD" type="submit" style="width: 100px; height: 30px;" value="DELETE" />
+					</form>
+				</td>
+			</tr>
+			}
+			<tr>
+				<form action="@routes.ManagementController.createUser()" method="post">
+					<td><input type="text" style="width: 150px; height: 25px;" name="userCd" required/></td>
+					<td><input type="Password" style="width: 150px; height: 25px;" name="userPass" required /></td>
+					<td>
+						<select style="width: 165px; height: 30px;" name="departmentName" required>
+							<option value="">部署名を選択</option>
+							@for(department <- departmentList) {
+								@if(department.id == 1){
+								<option value="@department.departmentName" class="human">@department.departmentName</option>
+								}else{
+								<option value="@department.departmentName" class="etc">@department.departmentName</option>
+								}
+					}
+						</select>
+					</td>
+					<td><input type="text" style="width: 150px; height: 25px;" name="userName"  required/></td>
+					<td>
+						<select  style="width: 165px; height: 30px;" name="permissionName" required>
+							<option value="">権限名を選択</option>
+							@for(permission <- permissionList) {
+							@if(permission.id==3){
+                            <option value="@permission.permissionName" class="etc">@permission.permissionName</option>
+							}
+							@if(permission.id==2){
+							<option value="@permission.permissionName" class="human">@permission.permissionName</option>
+							}
+							}
+						</select>
+					</td>
+					<td>
+						<input class="myButtonA" type="submit" style="width: 100px; height: 30px;" value="ADD"/>
+					</td>
+				</form>
+				<script>
+				$(function() {
+	$('select[name="departmentName"]').change(function() {
+		var countyName = $('select[name="departmentName"] option:selected').attr("class");
+		console.log(countyName);
+	})
+})
+
+$(function() {
+	$('select[name="departmentName"]').change(function() {
+		var countyName = $('select[name="departmentName"] option:selected').attr("class");
+		console.log(countyName);
+		var count = $('select[name="permissionName"]').children().length;
+
+		for (var i=0; i<count; i++) {
+			var city = $('select[name="permissionName"] option:eq(' + i + ')');
+			if(city.attr("class") === countyName) {
+				city.show();
+			}else {
+				city.hide();
+			}
+		}
+	})
+})
+</script>
+			</tr>
+		</table>
+	</body>
+</html>
+

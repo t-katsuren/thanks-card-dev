@@ -1,0 +1,92 @@
+@(userList: List[User])(departmentList: List[Department])(categoryList: List[Category])
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<script src="@routes.Assets.versioned("javascripts/jquery-1.12.3.min.js")"></script>
+		<meta charset="UTF-8">
+		<style>
+			table{border-spacing: 15px;}
+			div.migi{text-align: right}
+		</style>
+		<title>thanks | create</title>
+	</head>
+	<body>
+		<form action="@routes.MypageController.sendCard()" method="POST">
+			<center>
+				<h2>感謝カード作成</h2>
+				<table class="thank" bgcolor="#e8e8e8">
+				<tr>
+					<td>
+						<b>宛先</b>
+						<select name="department" required>>
+							<option selected="selected" class="msg" value ="">--- 部署 ---</option>
+							@for(department <- departmentList) {
+								<option class="count@department.id"> @department.departmentName</option>
+							}
+						</select>
+						<select name="toUserName" required>>
+							<option selected="selected" class="msg" value ="">--- 氏名 ---</option>
+							@for(user <- userList) {
+								<option class="count@user.department.id">@user.userName</option>
+							}
+						</select>
+						&nbsp;&nbsp;<b>分類</b>
+						<select name="category" required>
+							<option value =""> --- 分類 ---
+							@for(category <- categoryList){
+							<option>@category.categoryName</option>
+							}
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<b>タイトル</b><br>
+						<input type="text" name="title" size="69" required style="font-size:large;" maxlength="30">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<b>やってもらったこと</b><br>
+						<textarea cols="80" name="detail" rows="10" required  style="font-size:large;" maxlength="60"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<b>感謝の言葉</b><br>
+						<textarea cols="80" name=message rows="10" required  style="font-size:large;" maxlength="150"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="migi">
+							<input type="submit" value="作成完了" >
+							<input type="reset" value="リセット">
+						</div>
+					</td>
+				</tr>
+				</table>
+				<!-- jqueryで絞り込み！！---->
+				<script>
+					$(function() {
+						$('select[name="department"]').change(function() {
+							var countyName = $('select[name="department"] option:selected').attr("class");
+							console.log(countyName);
+							var count = $('select[name="toUserName"]').children().length;
+							for (var i=0; i<count; i++) {
+								var toUserName = $('select[name="toUserName"] option:eq(' + i + ')');
+								if(toUserName.attr("class") === countyName) {
+									toUserName.show();
+								} else {
+									toUserName.hide();
+								}
+							}
+						})
+					})
+				</script>
+			</center>
+		</form>
+	</body>
+</html>
